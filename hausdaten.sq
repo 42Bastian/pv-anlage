@@ -1,0 +1,18 @@
+
+--
+-- Table structure for table `rct`
+--
+CREATE DATABASE IF NOT EXISTS hausdaten;
+
+CREATE TABLE `rct` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `timestamp` int(11) NOT NULL,
+  `edc1` decimal(30,15) DEFAULT NULL,
+  `edc2` decimal(30,15) DEFAULT NULL,
+  `load_house` decimal(30,15) DEFAULT NULL,
+  `grid_power` decimal(30,15) DEFAULT NULL,
+  `battery_power` decimal(30,15) DEFAULT NULL,
+  `soc` decimal(30,15) DEFAULT NULL,
+  `eac` decimal(30,15) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5129 DEFAULT CHARSET=utf8;
