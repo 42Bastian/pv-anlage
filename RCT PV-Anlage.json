@@ -246,7 +246,7 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 12,
+        "w": 10,
         "x": 0,
         "y": 0
       },
@@ -420,8 +420,8 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 9,
-        "x": 12,
+        "w": 7,
+        "x": 10,
         "y": 0
       },
       "id": 24,
@@ -529,12 +529,41 @@
           },
           "unit": "percentunit"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "PV"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "watt"
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 4,
-        "w": 3,
-        "x": 21,
+        "w": 7,
+        "x": 17,
         "y": 0
       },
       "id": 10,
@@ -544,7 +573,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "/^SOC$/",
+          "fields": "",
           "values": false
         },
         "showThresholdLabels": false,
@@ -561,7 +590,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT ROUND(soc,3) AS \"SOC\" FROM hausdaten.rct",
+          "rawSql": "SELECT ROUND(soc,3) AS \"SOC\", edc1+edc2 as PV FROM hausdaten.rct order by id desc limit 1",
           "refId": "A",
           "sql": {
             "columns": [
@@ -599,7 +628,7 @@
           "table": "rct"
         }
       ],
-      "title": "SoC",
+      "title": "aktuell",
       "type": "gauge"
     },
     {
@@ -621,7 +650,7 @@
             "barAlignment": 0,
             "drawStyle": "line",
             "fillOpacity": 33,
-            "gradientMode": "none",
+            "gradientMode": "scheme",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
@@ -651,10 +680,6 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           },
@@ -671,38 +696,29 @@
                 "id": "color",
                 "value": {
                   "fixedColor": "green",
-                  "mode": "fixed"
+                  "mode": "thresholds",
+                  "seriesBy": "last"
                 }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "String 1"
-            },
-            "properties": [
+              },
               {
-                "id": "color",
+                "id": "thresholds",
                 "value": {
-                  "fixedColor": "super-light-yellow",
-                  "mode": "fixed"
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "semi-dark-green",
+                      "value": null
+                    },
+                    {
+                      "color": "semi-dark-red",
+                      "value": 0
+                    }
+                  ]
                 }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "String 2"
-            },
-            "properties": [
+              },
               {
-                "id": "color",
-                "value": {
-                  "fixedColor": "yellow",
-                  "mode": "fixed"
-                }
+                "id": "displayName",
+                "value": "Batterie (rot entladen/grün laden)"
               }
             ]
           },
@@ -746,8 +762,28 @@
                 "id": "color",
                 "value": {
                   "fixedColor": "red",
-                  "mode": "fixed"
+                  "mode": "thresholds"
                 }
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "dark-purple",
+                      "value": null
+                    },
+                    {
+                      "color": "dark-red",
+                      "value": -2
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "displayName",
+                "value": "Netz (lila einspeisen, rot beziehen)"
               }
             ]
           },
@@ -830,10 +866,9 @@
       "options": {
         "legend": {
           "calcs": [
+            "last",
             "min",
             "max",
-            "mean",
-            "last",
             "sum",
             "count"
           ],
@@ -1257,7 +1292,7 @@
       "type": "timeseries"
     }
   ],
-  "refresh": false,
+  "refresh": "1m",
   "schemaVersion": 37,
   "style": "dark",
   "tags": [],
@@ -1425,6 +1460,6 @@
   "timezone": "browser",
   "title": "RCT PV-Anlage",
   "uid": "OpWhT5mgz",
-  "version": 42,
+  "version": 45,
   "weekStart": ""
 }
