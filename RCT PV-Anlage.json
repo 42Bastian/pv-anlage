@@ -297,7 +297,7 @@
           }
         }
       ],
-      "title": "Leistung($zeitraum h)",
+      "title": "Energie ($zeitraum h)",
       "transformations": [],
       "type": "bargauge"
     },
@@ -541,19 +541,77 @@
                 "value": "watt"
               },
               {
+                "id": "max",
+                "value": 8000
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-yellow",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Netz"
+            },
+            "properties": [
+              {
                 "id": "thresholds",
                 "value": {
                   "mode": "absolute",
                   "steps": [
                     {
-                      "color": "green",
+                      "color": "dark-purple",
                       "value": null
                     },
                     {
-                      "color": "red",
-                      "value": 80
+                      "color": "dark-red",
+                      "value": 0
                     }
                   ]
+                }
+              },
+              {
+                "id": "unit",
+                "value": "watt"
+              },
+              {
+                "id": "min",
+                "value": -7000
+              },
+              {
+                "id": "max",
+                "value": 7000
+              },
+              {
+                "id": "custom.neutral",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Verbrauch"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "watt"
+              },
+              {
+                "id": "max",
+                "value": 5998
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-blue",
+                  "mode": "fixed"
                 }
               }
             ]
@@ -590,7 +648,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT ROUND(soc,3) AS \"SOC\", edc1+edc2 as PV FROM hausdaten.rct order by id desc limit 1",
+          "rawSql": "SELECT ROUND(soc,3) AS \"SOC\", load_house as Verbrauch, edc1+edc2 as PV, grid_power as Netz FROM hausdaten.rct order by id desc limit 1",
           "refId": "A",
           "sql": {
             "columns": [
@@ -1460,6 +1518,6 @@
   "timezone": "browser",
   "title": "RCT PV-Anlage",
   "uid": "OpWhT5mgz",
-  "version": 45,
+  "version": 48,
   "weekStart": ""
 }
