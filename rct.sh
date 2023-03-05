@@ -32,7 +32,7 @@ while true; do
 #	echo "delay $delay"
 	sleep $delay
 	printf -v d "%(%H:%M:%S)T"
-	./rct-logging.sh
+	./rct-logging.sh 2>&1 >> ~/grf/rct.log
 	printf -v tomorrow "%(%d%m%y)T"
 	first=0
     done
