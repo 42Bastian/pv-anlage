@@ -1,4 +1,5 @@
 #!/bin/bash
+echo $$ >~/grf/rct.pid
 while true; do
     # Wait for WR to appear
     while true; do
@@ -32,7 +33,7 @@ while true; do
 #	echo "delay $delay"
 	sleep $delay
 	printf -v d "%(%H:%M:%S)T"
-	./rct-logging.sh 2>&1 >> ~/grf/rct.log
+	./rct-logging.sh &>>~/grf/rct.log
 	printf -v tomorrow "%(%d%m%y)T"
 	first=0
     done
