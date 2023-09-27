@@ -71,10 +71,10 @@ fi
 # State of Charge
 get_rct_value 0x959930BF
 soc=$(echo "scale=2;$result/1"|bc)
-if [[ $soc > 1.0 ]]; then
+if [[ $soc -gt 1.0 ]]; then
 	soc=1.0
 fi
-if [[ $soc < 0.0 ]]; then
+if [[ $soc -lt 0.0 ]]; then
 	soc=0.0
 fi
 # WRITE VALUES TO DB
