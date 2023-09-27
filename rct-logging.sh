@@ -56,10 +56,11 @@ get_rct_value 0x91617C58
 grid_power=$(echo "scale=2;$result/1"|bc)
 
 # Batterie-Power: negativ beim Laden, positiv beim Entladen
+#get_rct_value 0xBD008E29
 get_rct_value 0x1156DFD0
 battery_power=$(echo "scale=2;$result/1"|bc)
 
-edc=$(echo "scale=0;($edc1+$edc2-$load_house)/1"|bc)
+edc=$(echo "scale=0;($edc1+$edc2-$load_house+$grid_power)/1"|bc)
 bp=$(echo "scale=0;($battery_power)/-1"|bc)
 
 if [[ $bp -gt 2000 && $bp -gt $edc ]]; then 
