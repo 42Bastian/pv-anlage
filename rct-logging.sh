@@ -78,4 +78,4 @@ if [ $(echo "$soc < 0.0"| bc) == 1 ]; then
 	soc=0.0
 fi
 # WRITE VALUES TO DB
-/bin/echo "INSERT INTO rct (timestamp,edc1,edc2,load_house,grid_power,battery_power,soc,eac) VALUES ('$timestamp', '$edc1', '$edc2', '$load_house', '$grid_power', '$battery_power', '$soc', '$eac');"n
+/bin/echo "INSERT INTO rct (timestamp,edc1,edc2,load_house,grid_power,battery_power,soc,eac) VALUES ('$timestamp', '$edc1', '$edc2', '$load_house', '$grid_power', '$battery_power', '$soc', '$eac');"  | sudo /usr/bin/mysql hausdaten
