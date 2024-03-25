@@ -18,7 +18,7 @@ get_rct_value () {
     result=""
 
     # Try to read value a few times or until result is not empty anymore
-    while [ -z "$result" ] && [ "$counter" -lt 3 ]; do
+    while [ -z "$result" ] && [ "$counter" -lt 5 ]; do
 
 	# Pause if not on first run (avoid hammering)
 	if [ "$counter" -gt 0 ]; then sleep 1; fi
@@ -40,24 +40,48 @@ get_rct_value () {
 
 # String 1
 get_rct_value 0xB5317B78
+if [ -z $result ]; then
+	echo timeout reading
+	exit
+fi
 edc1=$(echo "scale=2;$result/1"|bc)
 
 get_rct_value 0xAA9AA253
+if [ -z $result ]; then
+	echo timeout reading
+	exit
+fi
 edc2=$(echo "scale=2;$result/1"|bc)
 
 get_rct_value 0x4E49AEC5
+if [ -z $result ]; then
+	echo timeout reading
+	exit
+fi
 eac=$(echo "scale=2;$result/1"|bc)
 
 # Haus-Power: negativ heißt Einspeisung, positiv heißt Netzbezug
 get_rct_value 0x1AC87AA0
+if [ -z $result ]; then
+	echo timeout reading
+	exit
+fi
 load_house=$(echo "scale=2;$result/1"|bc)
 
 get_rct_value 0x91617C58
+if [ -z $result ]; then
+	echo timeout reading
+	exit
+fi
 grid_power=$(echo "scale=2;$result/1"|bc)
 
 # Batterie-Power: negativ beim Laden, positiv beim Entladen
 #get_rct_value 0xBD008E29
 get_rct_value 0x1156DFD0
+if [ -z $result ]; then
+	echo timeout reading
+	exit
+fi
 battery_power=$(echo "scale=2;$result/1"|bc)
 
 edc=$(echo "scale=0;($edc1+$edc2-$load_house+$grid_power)/1"|bc)
@@ -70,11 +94,15 @@ fi
 
 # State of Charge
 get_rct_value 0x959930BF
+if [ -z $result ]; then
+	echo timeout reading
+	exit
+fi
 soc=$(echo "scale=2;$result/1"|bc)
-if [ $(echo "$soc > 1.0" | bc) == 1 ]; then
+if [[ -z $soc && $(echo "$soc > 1.0" | bc) == 1 ]]; then
 	soc=1.0
 fi
-if [ $(echo "$soc < 0.0"| bc) == 1 ]; then
+if [[ -z $soc || $(echo "$soc < 0.0"| bc) == 1 ]]; then
 	soc=0.0
 fi
 # WRITE VALUES TO DB
