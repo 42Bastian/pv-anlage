@@ -35,27 +35,27 @@ get_rct_value () {
     sleep 1
 
 }
-
+dt=$(date)
 # READ VALUES
 
 # String 1
 get_rct_value 0xB5317B78
 if [ -z $result ]; then
-	echo timeout reading
+	echo $dt timeout reading
 	exit
 fi
 edc1=$(echo "scale=2;$result/1"|bc)
 
 get_rct_value 0xAA9AA253
 if [ -z $result ]; then
-	echo timeout reading
+	echo $dt timeout reading
 	exit
 fi
 edc2=$(echo "scale=2;$result/1"|bc)
 
 get_rct_value 0x4E49AEC5
 if [ -z $result ]; then
-	echo timeout reading
+	echo $dt timeout reading
 	exit
 fi
 eac=$(echo "scale=2;$result/1"|bc)
@@ -63,14 +63,14 @@ eac=$(echo "scale=2;$result/1"|bc)
 # Haus-Power: negativ heißt Einspeisung, positiv heißt Netzbezug
 get_rct_value 0x1AC87AA0
 if [ -z $result ]; then
-	echo timeout reading
+	echo $dt timeout reading
 	exit
 fi
 load_house=$(echo "scale=2;$result/1"|bc)
 
 get_rct_value 0x91617C58
 if [ -z $result ]; then
-	echo timeout reading
+	echo $dt timeout reading
 	exit
 fi
 grid_power=$(echo "scale=2;$result/1"|bc)
@@ -79,7 +79,7 @@ grid_power=$(echo "scale=2;$result/1"|bc)
 #get_rct_value 0xBD008E29
 get_rct_value 0x1156DFD0
 if [ -z $result ]; then
-	echo timeout reading
+	echo $dt timeout reading
 	exit
 fi
 battery_power=$(echo "scale=2;$result/1"|bc)
@@ -89,13 +89,13 @@ bp=$(echo "scale=0;($battery_power)/-1"|bc)
 
 if [[ $bp -gt 2000 && $bp -gt $edc ]]; then 
     battery_power=$((-edc))
-    echo "$bp <-> $battery_power out of range"
+    echo "$dt $bp <-> $battery_power out of range"
 fi
 
 # State of Charge
 get_rct_value 0x959930BF
 if [ -z $result ]; then
-	echo timeout reading
+	echo $dt timeout reading
 	exit
 fi
 soc=$(echo "scale=2;$result/1"|bc)
